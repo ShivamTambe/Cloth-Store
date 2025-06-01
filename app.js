@@ -59,8 +59,10 @@ app.use((req, res, next) => {
 // Route for home page
 app.get("/", (req, res) => {
   const productsPath = path.join(__dirname, 'data', 'products.json');
-  const products = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
-  res.render("index", { products });
+  const bestsellers = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
+  res.render("index", {
+    bestsellersData: bestsellers // send as one object
+  });
 });
 
 app.get("/orders", (req, res) => {

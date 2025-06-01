@@ -1,62 +1,65 @@
-[
-  {
-    "id": 1,
-    "name": "Facial Cleanser",
-    "price": 29.00,
-    "oldPrice": 39.00,
-    "image": "/assets/images/product-01.jpg",
-    "rating": 5,
-    "reviews": 5170,
-    "discount": 20
-  },
-  {
-    "id": 2,
-    "name": "Body Lotion",
-    "price": 35.00,
-    "oldPrice": 45.00,
-    "image": "/assets/images/product-02.jpg",
-    "rating": 4,
-    "reviews": 3120,
-    "discount": 22
-  },
-  {
-    "id": 3,
-    "name": "Herbal Shampoo",
-    "price": 19.99,
-    "oldPrice": 29.99,
-    "image": "/assets/images/product-03.jpg",
-    "rating": 4,
-    "reviews": 1540,
-    "discount": 33
-  },
-  {
-    "id": 4,
-    "name": "Aloe Vera Gel",
-    "price": 15.00,
-    "oldPrice": 25.00,
-    "image": "/assets/images/product-04.jpg",
-    "rating": 5,
-    "reviews": 2310,
-    "discount": 40
-  },
-  {
-    "id": 5,
-    "name": "Aloe Vera Gel",
-    "price": 15.00,
-    "oldPrice": 25.00,
-    "image": "/assets/images/product-05.jpg",
-    "rating": 5,
-    "reviews": 2310,
-    "discount": 40
-  },
-  {
-    "id": 6,
-    "name": "Aloe Vera Gel",
-    "price": 15.00,
-    "oldPrice": 25.00,
-    "image": "/assets/images/product-01.jpg",
-    "rating": 5,
-    "reviews": 2310,
-    "discount": 40
+{
+    "title": "Our Bestsellers",
+    "products": [
+      {
+        "id": 1,
+        "name": "Facial Cleanser",
+        "price": 29.00,
+        "oldPrice": 39.00,
+        "image": "/assets/images/product-01.jpg",
+        "rating": 5,
+        "reviews": 5170,
+        "discount": 20
+      },
+      {
+        "id": 2,
+        "name": "Body Lotion",
+        "price": 35.00,
+        "oldPrice": 45.00,
+        "image": "/assets/images/product-02.jpg",
+        "rating": 4,
+        "reviews": 3120,
+        "discount": 22
+      },
+      {
+        "id": 3,
+        "name": "Herbal Shampoo",
+        "price": 19.99,
+        "oldPrice": 29.99,
+        "image": "/assets/images/product-03.jpg",
+        "rating": 4,
+        "reviews": 1540,
+        "discount": 33
+      },
+      {
+        "id": 4,
+        "name": "Aloe Vera Gel",
+        "price": 15.00,
+        "oldPrice": 25.00,
+        "image": "/assets/images/product-04.jpg",
+        "rating": 5,
+        "reviews": 2310,
+        "discount": 40
+      },
+      {
+        "id": 5,
+        "name": "Aloe Vera Gel",
+        "price": 15.00,
+        "oldPrice": 25.00,
+        "image": "/assets/images/product-05.jpg",
+        "rating": 5,
+        "reviews": 2310,
+        "discount": 40
+      },
+      {
+        "id": 6,
+        "name": "Aloe Vera Gel",
+        "price": 15.00,
+        "oldPrice": 25.00,
+        "image": "/assets/images/product-01.jpg",
+        "rating": 5,
+        "reviews": 2310,
+        "discount": 40
+      }
+    ]
   }
-]
