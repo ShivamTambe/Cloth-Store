@@ -10,15 +10,28 @@ passport.use(new GoogleStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     // Find or create user
-    let user = await User.findOne({ googleId: profile.id });
-    if (!user) {
-      user = await User.create({
+    try {
+      // Find user by googleId
+      let existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        // User already exists, return it
+        console.log("User FOUND:", existingUser);
+        return done(null, existingUser);
+      }
+
+      // User not found — create new user
+      const newUser = await User.create({
         googleId: profile.id,
         name: profile.displayName,
         email: profile.emails[0].value,
+        photo: profile.photos[0].value
       });
+      console.log("User created:", newUser);
+      return done(null, newUser);
+    } catch (err) {
+      return done(err, false);
     }
-    done(null, user);
   }
 ));
 
