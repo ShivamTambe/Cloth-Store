@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing - Reveal The Beauty of Skin</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/checkout.css">
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+    - preload images
+  -->
+    <link rel="preload" as="image" href="./assets/images/logo.png">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-1.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-2.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-3.jpg">
+
+</head>
+
+<body id="top">
+
+    <!-- 
+    - #HEADER
+  -->
+
+    <%- include('partials/header') %>
+
+
+    <!-- 
+        - #CHECKOUT
+      -->
+
+    <div id="order-success" class="order-success hidden">
+        <div class="checkmark-container">
+            <div class="checkmark-circle">
+                <div class="checkmark"></div>
+            </div>
+            <h2>Order Placed Successfully!</h2>
+        </div>
+    </div>
+
+    <div class="checkout-container">
+        <h2>Checkout</h2>
+
+        <div class="checkout-wrapper">
+            <!-- Shipping Form -->
+            <form class="checkout-form">
+                <h3>PAYMENT METHOD</h3>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" required>
+                        <label for="">COD</label>
+                    </div>
+                    <div class="payment-method gray">
+                        <input type="radio" disabled>
+                        <label for="">COD</label>
+                    </div>
+                    <div class="payment-method gray">
+                        <input type="radio" disabled>
+                        <label for="">COD</label>
+                    </div>
+                </div>
+
+                <h3>Shipping Information</h3>
+                <label>Full Name
+                    <input type="text" placeholder="John Doe" required>
+                </label>
+                <label>Email
+                    <input type="email" placeholder="john@example.com" required>
+                </label>
+                <label>Address
+                    <input type="text" placeholder="123 Main Street" required>
+                </label>
+                <label>City
+                    <input type="text" placeholder="New York" required>
+                </label>
+                <label>Postal Code
+                    <input type="text" placeholder="10001" required>
+                </label>
+                <label>Country
+                    <input type="text" placeholder="USA" required>
+                </label>
+            </form>
+
+            <!-- Order Summary -->
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-item">
+                    <p>Facial Cleanser × 1</p>
+                    <p>$29.00</p>
+                </div>
+                <div class="summary-item">
+                    <p>Shipping</p>
+                    <p>$5.00</p>
+                </div>
+                <div class="summary-total">
+                    <p>Total</p>
+                    <p><strong>$34.00</strong></p>
+                </div>
+                <button class="place-order-btn" id="order-btn">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+    - #FOOTER
+  -->
+
+     <%- include('partials/footer') %>
+
+
+    <script>
+        function showOrderSuccess() {
+            const successPopup = document.getElementById("order-success");
+            successPopup.classList.remove("hidden");
+
+            // Optional: auto-hide after 3 seconds
+            setTimeout(() => {
+                successPopup.classList.add("hidden");
+            }, 3000);
+        }
+
+        // Attach to your place order button
+        document.getElementById("order-btn").addEventListener("click", function () {
+            // Your order logic here (e.g., API call, form submission)
+            console.log("HELLO");
+
+            // Simulate order success after 500ms
+            setTimeout(() => {
+                showOrderSuccess();
+
+                // Wait for 3 seconds after animation appears, then redirect
+                setTimeout(() => {
+                    window.location.href = "/index.html";
+                }, 1000); // 3 seconds delay for animation
+            }, 500); // Simulated order delay
+        });
+    </script>
+
+
+
+    <!-- 
+    - custom js link
+  -->
+    <script src="./assets/js/script.js" defer></script>
+    <script src="main.js" defer></script>
+    <script src="slider.js" defer></script>
+    <script src="cart.js" defer></script>
+
+    <!-- 
+    - ionicon link
+  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

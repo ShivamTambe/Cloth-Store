@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing - Reveal The Beauty of Skin</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/orders.css">
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+    - preload images
+  -->
+    <link rel="preload" as="image" href="./assets/images/logo.png">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-1.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-2.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-3.jpg">
+
+</head>
+
+<body id="top">
+
+    <!-- 
+    - #HEADER
+  -->
+
+    <%- include('partials/header') %>
+
+
+    <!-- 
+        - #ORDERS
+      -->
+
+    <div class="orders-wrapper">
+  <h1>My Orders</h1>
+
+  <div class="order-card" onclick="showOrderDetails('ORD123')">
+    <div>
+      <p><strong>Order #:</strong> ORD123</p>
+      <p><strong>Date:</strong> May 31, 2025</p>
+      <p><strong>Status:</strong> Delivered</p>
+    </div>
+    <div>
+      <p class="total">₹1,299</p>
+      <button>View Details</button>
+    </div>
+  </div>
+
+  <div class="order-card" onclick="showOrderDetails('ORD124')">
+    <div>
+      <p><strong>Order #:</strong> ORD124</p>
+      <p><strong>Date:</strong> May 30, 2025</p>
+      <p><strong>Status:</strong> In Progress</p>
+    </div>
+    <div>
+      <p class="total">₹799</p>
+      <button>View Details</button>
+    </div>
+  </div>
+</div>
+
+<!-- Order Details Modal -->
+<div id="order-details" class="hidden">
+  <div class="modal-box">
+    <button class="close" onclick="closeOrderDetails()">&times;</button>
+    <h2>Order Details</h2>
+    <div id="order-info">
+      <!-- Populated via JavaScript -->
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- 
+    - #FOOTER
+  -->
+
+     <%- include('partials/footer') %>
+
+    <script>
+  function showOrderDetails(orderId) {
+    document.getElementById("order-details").classList.remove("hidden");
+    document.getElementById("order-info").innerHTML = `
+      <p><strong>Order ID:</strong> ${orderId}</p>
+      <p><strong>Status:</strong> Delivered</p>
+      <p><strong>Items:</strong></p>
+      <ul>
+        <li>Blue Sari x1 – ₹999</li>
+        <li>Shipping – ₹300</li>
+      </ul>
+      <p><strong>Total:</strong> ₹1299</p>
+    `;
+  }
+
+  function closeOrderDetails() {
+    document.getElementById("order-details").classList.add("hidden");
+  }
+</script>
+
+
+
+    <!-- 
+    - custom js link
+  -->
+    <script src="./assets/js/script.js" defer></script>
+    <script src="main.js" defer></script>
+    <script src="slider.js" defer></script>
+    <script src="cart.js" defer></script>
+
+    <!-- 
+    - ionicon link
+  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

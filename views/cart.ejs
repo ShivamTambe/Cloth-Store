@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing - Reveal The Beauty of Skin</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/cart.css">
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+    - preload images
+  -->
+    <link rel="preload" as="image" href="./assets/images/logo.png">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-1.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-2.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-3.jpg">
+
+</head>
+
+<body id="top">
+
+    <!-- 
+    - #HEADER
+  -->
+
+    <%- include('partials/header') %>
+
+
+    <!-- 
+        - #CART
+      -->
+
+    <div class="cart-container container" aria-label="hero" data-section>
+
+        <div class="cart-item">
+            <div class="item-image">
+                <img src="./assets/images/product-01.jpg" alt="Product">
+            </div>
+
+            <div class="item-details">
+                <h3 class="item-name">
+                    OnePlus 13R | Smarter with OnePlus AI | Lifetime Display Warranty (12GB RAM, 256GB Storage Nebula
+                    Noir)
+                </h3>
+                <p class="item-price">$29.00 <del>$39.00</del></p>
+                <div class="item-actions">
+                    <label>Qty:
+                        <input type="number" value="1" min="1">
+                    </label>
+                    <button class="remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+        <div class="cart-item">
+            <div class="item-image">
+                <img src="./assets/images/product-01.jpg" alt="Product">
+            </div>
+
+            <div class="item-details">
+                <h3 class="item-name">
+                    OnePlus 13R | Smarter with OnePlus AI | Lifetime Display Warranty (12GB RAM, 256GB Storage Nebula
+                    Noir)
+                </h3>
+                <p class="item-price">$29.00 <del>$39.00</del></p>
+                <div class="item-actions">
+                    <label>Qty:
+                        <input type="number" value="1" min="1">
+                    </label>
+                    <button class="remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-summary">
+            <button class="checkout-btn"><a href="/checkout">Proceed to Checkout</a></button>
+            <p>Total: <strong>$29.00</strong></p>
+        </div>
+
+    </div>
+
+
+    <!-- 
+    - #FOOTER
+  -->
+
+      <%- include('partials/footer') %>
+
+
+
+
+
+    <!-- 
+    - custom js link
+  -->
+    <script src="./assets/js/script.js" defer></script>
+    <script src="main.js" defer></script>
+    <script src="slider.js" defer></script>
+    <script src="cart.js" defer></script>
+
+    <!-- 
+    - ionicon link
+  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
