@@ -2,15 +2,29 @@
     "title": "Our Bestsellers",
     "products": [
       {
-        "id": 1,
-        "name": "Facial Cleanser",
-        "price": 29.00,
-        "oldPrice": 39.00,
-        "image": "/assets/images/product-01.jpg",
-        "rating": 5,
-        "reviews": 5170,
-        "discount": 20
-      },
+      "id": 1,
+      "company": "SNEAKER COMPANY",
+      "name": "Fall Limited Edition Sneakers",
+      "description": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
+      "price": 125.00,
+      "oldPrice": 250.00,
+      "discount": 50,
+      "rating": 4.5,
+      "reviews": 230,
+      "image":  "/assets/imagesp/image-product-1.jpg",
+      "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
+    },
       {
         "id": 2,
         "name": "Body Lotion",
@@ -19,7 +33,19 @@
         "image": "/assets/images/product-02.jpg",
         "rating": 4,
         "reviews": 3120,
-        "discount": 22
+        "discount": 22,
+        "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
       },
       {
         "id": 3,
@@ -29,7 +55,19 @@
         "image": "/assets/images/product-03.jpg",
         "rating": 4,
         "reviews": 1540,
-        "discount": 33
+        "discount": 33,
+        "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
       },
       {
         "id": 4,
@@ -39,7 +77,19 @@
         "image": "/assets/images/product-04.jpg",
         "rating": 5,
         "reviews": 2310,
-        "discount": 40
+        "discount": 40,
+        "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
       },
       {
         "id": 5,
@@ -49,7 +99,19 @@
         "image": "/assets/images/product-05.jpg",
         "rating": 5,
         "reviews": 2310,
-        "discount": 40
+        "discount": 40,
+        "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
       },
       {
         "id": 6,
@@ -59,7 +121,19 @@
         "image": "/assets/images/product-01.jpg",
         "rating": 5,
         "reviews": 2310,
-        "discount": 40
+        "discount": 40,
+        "images": [
+        "/assets/imagesp/image-product-1.jpg",
+        "/assets/imagesp/image-product-2.jpg",
+        "/assets/imagesp/image-product-3.jpg",
+        "/assets/imagesp/image-product-4.jpg"
+      ],
+      "thumbnails": [
+        "/assets/imagesp/image-product-1-thumbnail.jpg",
+        "/assets/imagesp/image-product-2-thumbnail.jpg",
+        "/assets/imagesp/image-product-3-thumbnail.jpg",
+        "/assets/imagesp/image-product-4-thumbnail.jpg"
+      ]
       }
     ]
   }

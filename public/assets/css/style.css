@@ -1439,3 +1439,8 @@ body {
   transform: translateY(0);
   pointer-events: auto;
 }
+.recommended-title{
+      padding-inline: 15px;
+      max-width: 1300px;
+    margin: 0 auto;
+}

@@ -56,10 +56,10 @@ app.use((req, res, next) => {
   next();
 });
 
+const productsPath = path.join(__dirname, 'data', 'products.json');
+const bestsellers = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
 // Route for home page
 app.get("/", (req, res) => {
-  const productsPath = path.join(__dirname, 'data', 'products.json');
-  const bestsellers = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
   res.render("index", {
     bestsellersData: bestsellers // send as one object
   });
@@ -73,8 +73,16 @@ app.get("/collections", (req, res) => {
   res.render("collections", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
 });
 
-app.get("/product", (req, res) => {
-  res.render("product", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
+
+app.get("/product/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const product = bestsellers.products.find(p => p.id === productId);
+
+  if (!product) {
+    return res.status(404).send("Product not found");
+  }
+
+  res.render("product", { product, title1: "Our Bestsellers",title2:"Recommeneded", products : bestsellers });
 });
 
 app.get("/cart", (req, res) => {
