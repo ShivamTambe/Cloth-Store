@@ -5,7 +5,6 @@ const passport = require('passport');
 const session = require('express-session');
 const fs = require('fs');
 
-
 require('dotenv').config();
 require('./config/passport');
 
@@ -58,6 +57,15 @@ app.use((req, res, next) => {
 
 const productsPath = path.join(__dirname, 'data', 'products.json');
 const bestsellers = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
+const Product = require("./models/Product");
+const productRoutes = require("./routes/product");
+
+app.use("/api/products", productRoutes);
+
+app.get("/addProducts", (req, res) => {
+  res.render("addproducts");
+});
+
 // Route for home page
 app.get("/", (req, res) => {
   res.render("index", {

@@ -1,0 +1,91 @@
+.add-product-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.add-product-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+#addProductForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#addProductForm input,
+#addProductForm textarea,
+#addProductForm button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+#addProductForm input:focus,
+#addProductForm textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+#addProductForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#addProductForm button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#addProductForm button:hover {
+  background-color: #0056b3;
+}
+
+#formMessage {
+  margin-top: 1rem;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+
+/* ---------- Responsive Layout ---------- */
+@media (max-width: 768px) {
+  .add-product-section {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  #addProductForm input,
+  #addProductForm textarea {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-product-section h2 {
+    font-size: 1.5rem;
+  }
+
+  #addProductForm {
+    gap: 0.75rem;
+  }
+
+  #addProductForm input,
+  #addProductForm textarea,
+  #addProductForm button {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}

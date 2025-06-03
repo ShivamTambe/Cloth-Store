@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing - Reveal The Beauty of Skin</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/checkout.css">
+    <link rel="stylesheet" href="./assets/css/addproducts.css">
+
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+    - preload images
+  -->
+    <link rel="preload" as="image" href="./assets/images/logo.png">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-1.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-2.jpg">
+    <link rel="preload" as="image" href="./assets/images/hero-banner-3.jpg">
+
+</head>
+
+<body id="top">
+
+    <!-- 
+    - #HEADER
+  -->
+
+    <%- include('partials/header') %>
+
+
+    <!-- 
+        - #ADD PRODUCTS
+      -->
+
+    <section class="add-product-section">
+  <h2>Add New Product</h2>
+  <form id="addProductForm">
+    <input type="text" name="name" placeholder="Product Name" required />
+    <input type="text" name="company" placeholder="Brand / Company" />
+    <textarea name="description" placeholder="Product Description" required></textarea>
+    <input type="number" name="price" placeholder="Price" required />
+    <input type="number" name="oldPrice" placeholder="Old Price" />
+    <input type="number" name="discount" placeholder="Discount (%)" />
+    <input type="text" name="category" placeholder="Category (e.g. Anime, Trendy)" />
+    <input type="number" name="stock" placeholder="Stock" />
+    <input type="number" name="reviews" placeholder="Reviews" />
+    <input type="number" name="rating" placeholder="Rating" />
+    
+    <!-- Image URLs (Cloudinary/S3) -->
+    <input type="url" name="image" placeholder="Main Image URL" required />
+    <input type="url" name="images" placeholder="Comma-separated image URLs" />
+    <input type="url" name="thumbnails" placeholder="Comma-separated thumbnail URLs" />
+
+    <button type="submit">Add Product</button>
+  </form>
+
+  <p id="formMessage"></p>
+</section>
+
+<script>
+  const form = document.getElementById("addProductForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: form.name.value,
+      company: form.company.value,
+      description: form.description.value,
+      price: parseFloat(form.price.value),
+      oldPrice: parseFloat(form.oldPrice.value),
+      discount: parseFloat(form.discount.value),
+      rating: parseFloat(form.rating.value),
+      reviews: parseInt(form.reviews.value),
+      image: form.image.value,
+      images: form.images.value.split(',').map(img => img.trim()),
+      thumbnails: form.thumbnails.value.split(',').map(img => img.trim()),
+      category: form.category.value,
+      stock: parseInt(form.stock.value)
+    };
+    console.log("Sending data:", formData);
+
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        document.getElementById("formMessage").innerText = "Product added successfully!";
+        form.reset();
+      } else {
+        document.getElementById("formMessage").innerText = "Error: " + result.message;
+      }
+    } catch (err) {
+      console.error(err);
+      document.getElementById("formMessage").innerText = "An error occurred.";
+    }
+  });
+</script>
+
+
+
+    <!-- 
+    - #FOOTER
+  -->
+
+     <%- include('partials/footer') %>
+
+
+    
+
+
+
+    <!-- 
+    - custom js link
+  -->
+    <script src="./assets/js/script.js" defer></script>
+    <script src="main.js" defer></script>
+    <script src="slider.js" defer></script>
+    <script src="cart.js" defer></script>
+  <script src="/assets/js/userlogin.js" defer></script>
+
+
+    <!-- 
+    - ionicon link
+  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
