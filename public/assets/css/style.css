@@ -1444,3 +1444,39 @@ body {
       max-width: 1300px;
     margin: 0 auto;
 }
+
+
+.login2{
+  position: relative; /* key to allow dropdown to follow this */
+  display: inline-block;
+  width: 100%;
+}
+
+#login-box2 {
+  z-index: 5;
+  position: absolute;
+  top: 100%; /* right below the icon */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-width:  200px;;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: var(--fs-6);
+}
+
+#login-box2.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.recommended-title{
+      padding-inline: 15px;
+      max-width: 1300px;
+    margin: 0 auto;
+}
