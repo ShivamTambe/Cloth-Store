@@ -38,6 +38,17 @@ db.on('error', (err) => {
   console.error('❌ MongoDB connection error:', err);
 });
 
+app.use(async (req, res, next) => {
+  try {
+    const topProducts = await Product.find({}).limit(10);
+    res.locals.topProducts = topProducts; // this makes it available in EJS
+    next();
+  } catch (err) {
+    console.error('Error fetching global products:', err);
+    res.locals.topProducts = [];
+    next();
+  }
+});
 
 // Session
 app.use(session({
@@ -71,7 +82,7 @@ app.get("/addProducts", (req, res) => {
 // Route for home page
 app.get("/", (req, res) => {
   res.render("index", {
-    bestsellersData: bestsellers // send as one object
+    bestsellersData: bestsellers// send as one object
   });
 });
 
@@ -83,17 +94,41 @@ app.get("/collections", (req, res) => {
   res.render("collections", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
 });
 
+const { ObjectId } = mongoose.Types;
 
-app.get("/product/:id", (req, res) => {
-  const productId = parseInt(req.params.id);
-  const product = bestsellers.products.find(p => p.id === productId);
+app.get("/product/:id", async (req, res) => {
+  const idParam = req.params.id;
+  let product;
+
+  // Try to parse as a number (for local JSON data)
+  const numericId = parseInt(idParam);
+
+  if (!isNaN(numericId)) {
+    // Search in bestsellers JSON by numeric id
+    product = bestsellers.products.find(p => p.id === numericId);
+  }
+
+  // If not found in JSON, check MongoDB
+  if (!product && ObjectId.isValid(idParam)) {
+    try {
+      product = await Product.findById(idParam).lean();
+    } catch (err) {
+      console.error("MongoDB query error:", err);
+    }
+  }
 
   if (!product) {
     return res.status(404).send("Product not found");
   }
 
-  res.render("product", { product, title1: "Our Bestsellers",title2:"Recommeneded", products : bestsellers });
+  res.render("product", {
+    product,
+    title1: "Our Bestsellers",
+    title2: "Recommended",
+    products: bestsellers.products,
+  });
 });
+
 
 app.get("/cart", (req, res) => {
   res.render("cart", { title: "Home Page", message: "Welcome to the EJS-powered site!" });

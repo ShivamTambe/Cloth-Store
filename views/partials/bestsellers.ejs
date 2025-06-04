@@ -12,7 +12,56 @@
     </div>
 
     <ul class="has-scrollbar">
+      <% topProducts.forEach(product=> { %>
+        <li class="scrollbar-item">
+          <div class="shop-card">
 
+            <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+              <img src="<%= product.image %>" width="540" height="720" loading="lazy" alt="<%= product.name %>"
+                class="img-cover">
+
+              <span class="badge" aria-label="<%= product.discount %>% off">-<%= product.discount %>%</span>
+
+              <div class="card-actions">
+                <button class="action-btn" aria-label="add to cart">
+                  <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+                </button>
+                <button class="action-btn" aria-label="add to wishlist">
+                  <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+                </button>
+                <button class="action-btn" aria-label="compare">
+                  <ion-icon name="repeat-outline" aria-hidden="true"></ion-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="price">
+                <del class="del">$<%= product.oldPrice.toFixed(2) %></del>
+                <span class="span">$<%= product.price.toFixed(2) %></span>
+              </div>
+
+              <h3>
+                <a href="/product/<%= product.id %>" class="card-title">
+                  <%= product.name %>
+                </a>
+              </h3>
+
+              <div class="card-rating">
+                <div class="rating-wrapper" aria-label="<%= product.rating %> star rating">
+                  <% for (let i=0; i < product.rating; i++) { %>
+                    <ion-icon name="star" aria-hidden="true"></ion-icon>
+                    <% } %>
+                </div>
+                <p class="rating-text">
+                  <%= product.reviews %> reviews
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </li>
+      <% }) %>
       <% products.forEach(product=> { %>
         <li class="scrollbar-item">
           <div class="shop-card">
