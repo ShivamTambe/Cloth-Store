@@ -18,6 +18,8 @@ app.set("views", path.join(__dirname, "views"));
 
 // Serve static files (CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, "public")));
+// ✅ Required to parse JSON body
+app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ MongoDB connected successfully!'))
