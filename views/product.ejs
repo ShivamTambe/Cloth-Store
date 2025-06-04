@@ -170,11 +170,9 @@
                 </div>
               </button>
               <div id="login-box2">
-                <% if (user) { %>
-                    <p>Welcome, <%= user.name %></p>
-                <% } else { %>
-                    <a href="/auth/google">Login with Google</a>
-                <% } %>
+                <% if (!user) { %>
+                    <a href="/auth/google2?redirect=/product/<%= product._id %>">Login with Google</a>
+                <% }%>
             </div>
           </div>
         </div>

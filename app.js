@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+// const MongoStore = require('connect-mongo');
 const fs = require('fs');
 
 require('dotenv').config();
@@ -55,6 +56,9 @@ app.use(session({
   secret: process.env.GOOGLE_CLIENT_SECRET,
   resave: false,
   saveUninitialized: false
+  // store: MongoStore.create({
+  //   mongoUrl: process.env.MONGO_URL
+  // })
 }));
 
 // Passport
