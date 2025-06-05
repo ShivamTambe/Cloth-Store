@@ -3,7 +3,11 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
-// const MongoStore = require('connect-mongo');
+const Order = require('./models/Order');
+const Cart = require('./models/Cart');
+
+
+const MongoStore = require('connect-mongo');
 const fs = require('fs');
 
 require('dotenv').config();
@@ -20,7 +24,10 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files (CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, "public")));
 // ✅ Required to parse JSON body
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ MongoDB connected successfully!'))
@@ -39,7 +46,35 @@ db.on('error', (err) => {
   console.error('❌ MongoDB connection error:', err);
 });
 
+// Session
+app.use(session({
+  secret: process.env.GOOGLE_CLIENT_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL
+  })
+}));
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(async (req, res, next) => {
+  res.locals.user = req.user || null;
+
+  if (req.user) {    
+    try {
+      const orderCount = await Cart.countDocuments({ userId: new mongoose.Types.ObjectId(req.user._id) });
+      res.locals.orderCount = orderCount;
+
+    } catch (err) {
+      console.error('Error fetching order count:', err);
+      res.locals.orderCount = 0;
+    }
+  } else {
+    res.locals.orderCount = 0;
+  }
   try {
     const topProducts = await Product.find({}).limit(10);
     res.locals.topProducts = topProducts; // this makes it available in EJS
@@ -50,20 +85,6 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-
-// Session
-app.use(session({
-  secret: process.env.GOOGLE_CLIENT_SECRET,
-  resave: false,
-  saveUninitialized: false
-  // store: MongoStore.create({
-  //   mongoUrl: process.env.MONGO_URL
-  // })
-}));
-
-// Passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/auth', require('./routes/auth'));
 
@@ -99,6 +120,10 @@ app.get("/collections", (req, res) => {
 });
 
 const { ObjectId } = mongoose.Types;
+
+const cartRoutes = require('./routes/cart');
+app.use(cartRoutes); // Or app.use('/cart', cartRoutes);
+
 
 app.get("/product/:id", async (req, res) => {
   const idParam = req.params.id;

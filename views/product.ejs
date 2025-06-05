@@ -122,40 +122,36 @@
           <div class="add-to-cart-container">
             <div class="counter">
               <button class="minus">
-                <svg
-                  width="12"
-                  height="4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
+                <svg width="12" height="4" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink">
                   <defs>
                     <path
                       d="M11.357 3.332A.641.641 0 0 0 12 2.69V.643A.641.641 0 0 0 11.357 0H.643A.641.641 0 0 0 0 .643v2.046c0 .357.287.643.643.643h10.714Z"
-                      id="a"
-                    />
+                      id="a" />
                   </defs>
                   <use fill="#FF7E1B" fill-rule="nonzero" xlink:href="#a" />
                 </svg>
               </button>
-              <span class="count">0</span>
+              <span class="count" id="count1">0</span>
               <button class="plus">
-                 <svg
-                  width="12"
-                  height="12"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
+                <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink">
                   <defs>
                     <path
                       d="M12 7.023V4.977a.641.641 0 0 0-.643-.643h-3.69V.643A.641.641 0 0 0 7.022 0H4.977a.641.641 0 0 0-.643.643v3.69H.643A.641.641 0 0 0 0 4.978v2.046c0 .356.287.643.643.643h3.69v3.691c0 .356.288.643.644.643h2.046a.641.641 0 0 0 .643-.643v-3.69h3.691A.641.641 0 0 0 12 7.022Z"
-                      id="b"
-                    />
+                      id="b" />
                   </defs>
                   <use fill="#FF7E1B" fill-rule="nonzero" xlink:href="#b" />
                 </svg>
               </button>
             </div>
             <div class="login2">
+              <form action="/cart/add" method="POST" class="none">
+                <input type="text" name="productId" value="<%= product._id %>">
+                <input type="number" name="count" min="1" value="1" id="count2">
+                <input type="text" name="redirectUrl" value="/product/<%= product._id %>">
+                <button type="submit" id="add-product">Add to Cart</button>
+              </form>
               <button class="add-to-cart" id="ad-to-cart">
                 <span>
                   <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -165,15 +161,29 @@
                   </svg>
                 </span>
                 <div>
-                  <span >Add to cart</span>
+                  <span>Add to cart</span>
                 </div>
-                </div>
-              </button>
-              <div id="login-box2">
-                <% if (!user) { %>
-                    <a href="/auth/google2?redirect=/product/<%= product._id %>">Login with Google</a>
-                <% }%>
             </div>
+            </button>
+            <% if (!user) { %>
+              <div id="login-box2">
+                <a href="/auth/google2?redirect=/product/<%= product._id %>">Login with Google</a>
+              </div>
+              <% } else { %>
+                <script>
+                  // Wait until the DOM is fully loaded
+                  window.addEventListener('DOMContentLoaded', function () {
+                    const addBtn = document.getElementById('ad-to-cart');
+                    addBtn.addEventListener('click', function () {
+                      const count = document.getElementById("count1").innerText;
+                      console.log(count);
+                      
+                      document.getElementById("count2").value = count;
+                      document.getElementById('add-product').click();
+                    });
+                  });
+                </script>
+              <% } %>
           </div>
         </div>
       </section>
@@ -187,30 +197,30 @@
 
     <%- include('partials/bestsellers', { products: products, title: title1 }) %>
 
-    <%- include('partials/recommended', { title: title2, products: products }) %>
+      <%- include('partials/recommended', { title: title2, products: products }) %>
 
 
-      <!-- 
+        <!-- 
     - #FOOTER
   -->
 
-      <%- include('partials/footer') %>
+        <%- include('partials/footer') %>
 
-        <!-- 
+          <!-- 
     - custom js link
   -->
-        <script src="/assets/js/script.js" defer></script>
-        <script src="/assets/js/main.js" defer></script>
-        <script src="/assets/js/slider.js" defer></script>
-        <script src="/assets/js/cart.js" defer></script>
-  <script src="/assets/js/userlogin.js" defer></script>
+          <script src="/assets/js/script.js" defer></script>
+          <script src="/assets/js/main.js" defer></script>
+          <script src="/assets/js/slider.js" defer></script>
+          <script src="/assets/js/cart.js" defer></script>
+          <script src="/assets/js/userlogin.js" defer></script>
 
 
-        <!-- 
+          <!-- 
     - ionicon link
   -->
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+          <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+          <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
 

@@ -12,5 +12,6 @@
   const loginBox2 = document.getElementById('login-box2');
 
   addCart.addEventListener('click', () => {
-    loginBox2.classList.toggle('show');
+    if(loginBox2)
+      loginBox2.classList.toggle('show');
   });

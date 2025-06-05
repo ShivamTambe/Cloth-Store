@@ -546,3 +546,7 @@ a {
     top: 40px;
   }
 }
+
+.none{
+  display: none;
+}
