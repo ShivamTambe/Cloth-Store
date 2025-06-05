@@ -159,8 +159,14 @@ app.get("/product/:id", async (req, res) => {
 });
 
 
-app.get("/cart", (req, res) => {
-  res.render("cart", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
+app.get("/cart", async (req, res) => {
+  console.log(req.user);
+  const userCart = await Cart.findOne({ userId: req.user._id }).populate('items.productId');
+  const cartItems = (userCart && userCart.items) || [];
+  res.render("cart", {
+      title: "Your Cart",
+      cartItems
+  });
 });
 
 app.get("/checkout", (req, res) => {

@@ -50,51 +50,45 @@
 
     <div class="cart-container container" aria-label="hero" data-section>
 
-        <div class="cart-item">
-            <div class="item-image">
-                <img src="./assets/images/product-01.jpg" alt="Product">
-            </div>
-
-            <div class="item-details">
-                <h3 class="item-name">
-                    OnePlus 13R | Smarter with OnePlus AI | Lifetime Display Warranty (12GB RAM, 256GB Storage Nebula
-                    Noir)
-                </h3>
-                <p class="item-price">$29.00 <del>$39.00</del></p>
-                <div class="item-actions">
-                    <label>Qty:
-                        <input type="number" value="1" min="1">
-                    </label>
-                    <button class="remove-btn">Remove</button>
-                </div>
-            </div>
-        </div>
-        <div class="cart-item">
-            <div class="item-image">
-                <img src="./assets/images/product-01.jpg" alt="Product">
-            </div>
-
-            <div class="item-details">
-                <h3 class="item-name">
-                    OnePlus 13R | Smarter with OnePlus AI | Lifetime Display Warranty (12GB RAM, 256GB Storage Nebula
-                    Noir)
-                </h3>
-                <p class="item-price">$29.00 <del>$39.00</del></p>
-                <div class="item-actions">
-                    <label>Qty:
-                        <input type="number" value="1" min="1">
-                    </label>
-                    <button class="remove-btn">Remove</button>
-                </div>
-            </div>
+  <% if (cartItems.length === 0) { %>
+    <p>Your cart is empty.</p>
+  <% } else { %>
+    <% let total = 0; %>
+    <% cartItems.forEach(item => { 
+         const itemTotal = item.price * item.quantity;
+         total += itemTotal;
+    %>
+      <div class="cart-item">
+        <div class="item-image">
+          <img src="<%= item.productId.image %>" alt="Product"> <!-- Assuming 'image' in Product schema -->
         </div>
 
-        <div class="cart-summary">
-            <button class="checkout-btn"><a href="/checkout">Proceed to Checkout</a></button>
-            <p>Total: <strong>$29.00</strong></p>
+        <div class="item-details">
+          <h3 class="item-name">
+            <%= item.name %>
+          </h3>
+          <p class="item-price">₹<%= item.price %> <del>₹<%= item.price + 10 %></del></p>
+          <div class="item-actions">
+            <label>Qty:
+              <input type="number" value="<%= item.quantity %>" min="1">
+            </label>
+            <form action="/cart/remove" method="POST" style="display:inline;">
+              <input type="hidden" name="productId" value="<%= item.productId._id %>">
+              <button type="submit" class="remove-btn">Remove</button>
+            </form>
+          </div>
         </div>
+      </div>
+    <% }) %>
 
+    <div class="cart-summary">
+      <button class="checkout-btn"><a href="/checkout">Proceed to Checkout</a></button>
+      <p>Total: <strong>₹<%= total %></strong></p>
     </div>
+  <% } %>
+
+</div>
+
 
 
     <!-- 
