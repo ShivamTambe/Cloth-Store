@@ -56,6 +56,9 @@
     <% let total = 0; %>
     <% cartItems.forEach(item => { 
          const itemTotal = item.price * item.quantity;
+         if (!item.productId) {
+              return; // This skips the rest of the current iteration for this 'item'
+          }
          total += itemTotal;
     %>
       <div class="cart-item">

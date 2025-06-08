@@ -53,72 +53,113 @@
     <section class="add-product-section">
   <h2>Add New Product</h2>
   <form id="addProductForm">
-    <input type="text" name="name" placeholder="Product Name" required />
-    <input type="text" name="company" placeholder="Brand / Company" />
-    <textarea name="description" placeholder="Product Description" required></textarea>
-    <input type="number" name="price" placeholder="Price" required />
-    <input type="number" name="oldPrice" placeholder="Old Price" />
-    <input type="number" name="discount" placeholder="Discount (%)" />
-    <input type="text" name="category" placeholder="Category (e.g. Anime, Trendy)" />
-    <input type="number" name="stock" placeholder="Stock" />
-    <input type="number" name="reviews" placeholder="Reviews" />
-    <input type="number" name="rating" placeholder="Rating" />
-    
-    <!-- Image URLs (Cloudinary/S3) -->
-    <input type="url" name="image" placeholder="Main Image URL" required />
-    <input type="url" name="images" placeholder="Comma-separated image URLs" />
-    <input type="url" name="thumbnails" placeholder="Comma-separated thumbnail URLs" />
+            <input type="text" name="name" placeholder="Product Name" required />
+            <input type="text" name="company" placeholder="Brand / Company" />
+            <textarea name="description" placeholder="Product Description" required></textarea>
+            <input type="number" name="price" placeholder="Your Selling Price" required />
+            <input type="number" name="oldPrice" placeholder="Old Price (Optional)" />
+            <input type="number" name="discount" placeholder="Discount (%) (Optional)" />
+            <input type="text" name="category" placeholder="Category (e.g. Anime, Trendy)" />
+            <input type="number" name="stock" placeholder="Stock (Optional)" />
+            <input type="number" name="reviews" placeholder="Reviews (Optional)" />
+            <input type="number" name="rating" placeholder="Rating (Optional)" />
 
-    <button type="submit">Add Product</button>
-  </form>
+            <input type="url" name="image" placeholder="Main Image URL" required />
+            <input type="url" name="images" placeholder="Comma-separated gallery image URLs" />
+            <input type="url" name="thumbnails" placeholder="Comma-separated thumbnail URLs" />
+
+            <h3>Qikink Details</h3>
+            <input type="text" name="qikinkDesignIdentifier" placeholder="Qikink Design Identifier (e.g., vecteezy_...)" required />
+            <input type="number" name="qikinkBaseCost" placeholder="Qikink Base Cost (e.g., 199.5)" required />
+            <input type="text" name="qikinkProductType" placeholder="Qikink Product Type (e.g., Cotton Apparels)" />
+
+            <button type="submit">Add Product</button>
+        </form>
 
   <p id="formMessage"></p>
 </section>
 
 <script>
-  const form = document.getElementById("addProductForm");
+  // This script block should be placed within your HTML body, preferably at the end, as it was.
+// The <script> tags are already present in your original HTML.
 
-  form.addEventListener("submit", async (e) => {
+const form = document.getElementById("addProductForm");
+
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = {
-      name: form.name.value,
-      company: form.company.value,
-      description: form.description.value,
-      price: parseFloat(form.price.value),
-      oldPrice: parseFloat(form.oldPrice.value),
-      discount: parseFloat(form.discount.value),
-      rating: parseFloat(form.rating.value),
-      reviews: parseInt(form.reviews.value),
-      image: form.image.value,
-      images: form.images.value.split(',').map(img => img.trim()),
-      thumbnails: form.thumbnails.value.split(',').map(img => img.trim()),
-      category: form.category.value,
-      stock: parseInt(form.stock.value)
+    // Helper function to safely parse numbers, defaulting to null if empty or invalid
+    const parseNumber = (value) => {
+        const num = parseFloat(value);
+        return isNaN(num) ? undefined : num; // Use undefined to omit if not provided
     };
+
+    // Helper function to safely parse integers
+    const parseIntSafe = (value) => {
+        const num = parseInt(value);
+        return isNaN(num) ? undefined : num;
+    };
+
+    const formData = {
+        name: form.name.value,
+        company: form.company.value || undefined, // Send as undefined if empty
+        description: form.description.value,
+        price: parseNumber(form.price.value),
+        oldPrice: parseNumber(form.oldPrice.value),
+        discount: parseNumber(form.discount.value),
+        rating: parseNumber(form.rating.value),
+        reviews: parseIntSafe(form.reviews.value),
+        image: form.image.value,
+        // Ensure that empty image/thumbnail strings don't result in empty string arrays
+        images: form.images.value ? form.images.value.split(',').map(img => img.trim()).filter(img => img !== '') : [],
+        thumbnails: form.thumbnails.value ? form.thumbnails.value.split(',').map(img => img.trim()).filter(img => img !== '') : [],
+        category: form.category.value || undefined,
+        stock: parseIntSafe(form.stock.value),
+
+        // --- NEW Qikink Fields ---
+        qikinkDesignIdentifier: form.qikinkDesignIdentifier.value,
+        qikinkBaseCost: parseNumber(form.qikinkBaseCost.value),
+        qikinkProductType: form.qikinkProductType.value || undefined,
+
+        // Variations are complex for a simple form. You might add them directly in DB or via another interface.
+        // If you were to add them, it would look something like this (for one hardcoded variant):
+        /*
+        variations: [
+            {
+                size: form.variantSize1.value || undefined,
+                color: form.variantColor1.value || undefined,
+                qikinkVariantIdentifier: form.qikinkVariantIdentifier1.value || undefined,
+                qikinkVariantCost: parseNumber(form.qikinkVariantCost1.value),
+                variantSellingPrice: parseNumber(form.variantSellingPrice1.value)
+            }
+        ].filter(v => v.size && v.color) // Only include if size and color are provided
+        */
+    };
+
     console.log("Sending data:", formData);
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        
-        body: JSON.stringify(formData)
-      });
+        const response = await fetch("/api/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (response.ok) {
-        document.getElementById("formMessage").innerText = "Product added successfully!";
-        form.reset();
-      } else {
-        document.getElementById("formMessage").innerText = "Error: " + result.message;
-      }
+        if (response.ok) {
+            document.getElementById("formMessage").innerText = "Product added successfully!";
+            form.reset(); // Clear the form after successful submission
+        } else {
+            // Display specific error messages from the backend if available
+            const errorMessage = result.message || result.error || "Unknown error.";
+            document.getElementById("formMessage").innerText = "Error: " + errorMessage;
+        }
     } catch (err) {
-      console.error(err);
-      document.getElementById("formMessage").innerText = "An error occurred.";
+        console.error("Fetch error:", err);
+        document.getElementById("formMessage").innerText = "An error occurred while sending the request.";
     }
   });
 </script>

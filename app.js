@@ -5,7 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const Order = require('./models/Order');
 const Cart = require('./models/Cart');
-
+const checkoutRouter = require('./routes/checkout');
 
 const MongoStore = require('connect-mongo');
 const fs = require('fs');
@@ -88,6 +88,8 @@ app.use(async (req, res, next) => {
 
 app.use('/auth', require('./routes/auth'));
 
+app.use('/', checkoutRouter);  // or '/api' based on your setup
+
 app.use((req, res, next) => {
   res.locals.user = req.user || null; // `req.user` is set by Passport if logged in
   next();
@@ -163,6 +165,7 @@ app.get("/cart", async (req, res) => {
   console.log(req.user);
   const userCart = await Cart.findOne({ userId: req.user._id }).populate('items.productId');
   const cartItems = (userCart && userCart.items) || [];
+  
   res.render("cart", {
       title: "Your Cart",
       cartItems

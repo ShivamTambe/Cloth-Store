@@ -44,135 +44,225 @@
     <%- include('partials/header') %>
 
 
-    <!-- 
+        <!-- 
         - #CHECKOUT
       -->
 
-    <div id="order-success" class="order-success hidden">
-        <div class="checkmark-container">
-            <div class="checkmark-circle">
-                <div class="checkmark"></div>
-            </div>
-            <h2>Order Placed Successfully!</h2>
-        </div>
-    </div>
-
-    <div class="checkout-container">
-        <h2>Checkout</h2>
-
-        <div class="checkout-wrapper">
-            <!-- Shipping Form -->
-            <form class="checkout-form">
-                <h3>PAYMENT METHOD</h3>
-                <div class="payment-methods">
-                    <div class="payment-method">
-                        <input type="radio" required>
-                        <label for="">COD</label>
-                    </div>
-                    <div class="payment-method gray">
-                        <input type="radio" disabled>
-                        <label for="">COD</label>
-                    </div>
-                    <div class="payment-method gray">
-                        <input type="radio" disabled>
-                        <label for="">COD</label>
-                    </div>
+        <div id="order-success" class="order-success hidden">
+            <div class="checkmark-container">
+                <div class="checkmark-circle">
+                    <div class="checkmark"></div>
                 </div>
-
-                <h3>Shipping Information</h3>
-                <label>Full Name
-                    <input type="text" placeholder="John Doe" required>
-                </label>
-                <label>Email
-                    <input type="email" placeholder="john@example.com" required>
-                </label>
-                <label>Address
-                    <input type="text" placeholder="123 Main Street" required>
-                </label>
-                <label>City
-                    <input type="text" placeholder="New York" required>
-                </label>
-                <label>Postal Code
-                    <input type="text" placeholder="10001" required>
-                </label>
-                <label>Country
-                    <input type="text" placeholder="USA" required>
-                </label>
-            </form>
-
-            <!-- Order Summary -->
-            <div class="checkout-summary">
-                <h3>Order Summary</h3>
-                <div class="summary-item">
-                    <p>Facial Cleanser × 1</p>
-                    <p>$29.00</p>
-                </div>
-                <div class="summary-item">
-                    <p>Shipping</p>
-                    <p>$5.00</p>
-                </div>
-                <div class="summary-total">
-                    <p>Total</p>
-                    <p><strong>$34.00</strong></p>
-                </div>
-                <button class="place-order-btn" id="order-btn">Place Order</button>
+                <h2>Order Placed Successfully!</h2>
             </div>
         </div>
-    </div>
+
+        <div class="checkout-container">
+            <h2>Checkout</h2>
+
+            <div class="checkout-wrapper">
+                <!-- Shipping Form -->
+                <form class="checkout-form">
+                    <h3>PAYMENT METHOD</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method">
+                            <input type="radio" name="fixed" checked onclick="return false;">
+                            <label for="">COD</label>
+                        </div>
+                        <div class="payment-method gray">
+                            <input type="radio" disabled>
+                            <label for="">COD</label>
+                        </div>
+                        <div class="payment-method gray">
+                            <input type="radio" disabled>
+                            <label for="">COD</label>
+                        </div>
+                    </div>
+
+                    <h3>Shipping Information</h3>
+                    <label>Full Name
+                        <input type="text" placeholder="John Doe" required>
+                    </label>
+                    <label>Email
+                        <input type="email" placeholder="john@example.com" required>
+                    </label>
+                    <label>Address Line 1
+                        <input type="text" placeholder="123 Main Street" required>
+                    </label>
+                    <label>Address Line 2
+                        <input type="text" placeholder="Optional">
+                    </label>
+                    <label>City
+                        <input type="text" placeholder="New York" required>
+                    </label>
+                    <label>State
+                        <input type="text" placeholder="State" required>
+                    </label>
+                    <label>Postal Code
+                        <input type="text" placeholder="10001" required>
+                    </label>
+                    <label>Country
+                        <input type="text" placeholder="USA" required>
+                    </label>
+                </form>
+
+                <!-- Order Summary -->
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-item">
+                        <p>Facial Cleanser × 1</p>
+                        <p>$29.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <p>Shipping</p>
+                        <p>$5.00</p>
+                    </div>
+                    <div class="summary-total">
+                        <p>Total</p>
+                        <p><strong>$34.00</strong></p>
+                    </div>
+                    <button class="place-order-btn" id="order-btn">Place Order</button>
+
+                </div>
+            </div>
+        </div>
 
 
-    <!-- 
+        <!-- 
     - #FOOTER
   -->
 
-     <%- include('partials/footer') %>
+        <%- include('partials/footer') %>
 
 
-    <script>
-        function showOrderSuccess() {
-            const successPopup = document.getElementById("order-success");
-            successPopup.classList.remove("hidden");
+            <script>
+                function showOrderSuccess() {
+                    const successPopup = document.getElementById("order-success");
+                    successPopup.classList.remove("hidden");
 
-            // Optional: auto-hide after 3 seconds
-            setTimeout(() => {
-                successPopup.classList.add("hidden");
-            }, 3000);
-        }
+                    // Optional: auto-hide after 3 seconds
+                    setTimeout(() => {
+                        successPopup.classList.add("hidden");
+                    }, 3000);
+                }
+                function generateNumericOrderId(length) {
+                    if (length <= 0) {
+                        return "";
+                    }
 
-        // Attach to your place order button
-        document.getElementById("order-btn").addEventListener("click", function () {
-            // Your order logic here (e.g., API call, form submission)
-            console.log("HELLO");
+                    // Start with a timestamp for a strong base of uniqueness
+                    let idString = Date.now().toString(); // e.g., "1717878891000" (13 digits)
 
-            // Simulate order success after 500ms
-            setTimeout(() => {
-                showOrderSuccess();
+                    // If the timestamp is already longer than or equal to the desired length,
+                    // take the last 'length' digits to ensure it's still unique and within bounds.
+                    if (idString.length >= length) {
+                        return idString.substring(idString.length - length);
+                    }
 
-                // Wait for 3 seconds after animation appears, then redirect
-                setTimeout(() => {
-                    window.location.href = "/index.html";
-                }, 1000); // 3 seconds delay for animation
-            }, 500); // Simulated order delay
-        });
-    </script>
+                    // If the timestamp is shorter, fill the remaining length with random digits (0-9)
+                    const remainingLength = length - idString.length;
+                    for (let i = 0; i < remainingLength; i++) {
+                        idString += Math.floor(Math.random() * 10).toString(); // Append a random digit
+                    }
+
+                    return idString; // This will be a string like "171787889100042" (15 digits)
+                }
+
+                document.getElementById('order-btn').addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    // --- How to use it for your Qikink order_number ---
+                    const qikink_order_number = generateNumericOrderId(15);
+                    // Simulate order success after 500ms
+                    setTimeout(() => {
+                        showOrderSuccess();
+
+                        // Wait for 3 seconds after animation appears, then redirect
+                        // setTimeout(() => {
+                        //     window.location.href = "/index.html";
+                        // }, 1000); // 3 seconds delay for animation
+                    }, 500); // Simulated order delay
+
+                    const orderData = {
+                        "order_number": qikink_order_number,
+                        "qikink_shipping": "1",
+                        "gateway": "COD",
+                        "total_order_value": "549.00",
+                        "line_items": [
+                            {
+                                "search_from_my_products": 0, // Set to 0 as per the Qikink documentation for un-SKU'd products
+                                "quantity": 1,
+                                "price": "250.00", // Your selling price for this specific item in this line_item
+                                "sku": "MStRnHs-Bk-M", // <-- ***IMPORTANT: REPLACE THIS WITH A REAL GENERIC SKU***
+                                // You can find generic SKUs on dashboard.qikink.com -> Products -> SKU Descriptions.
+                                // Example: a specific SKU for a plain "Black T-shirt, Size L".
+                                "print_type_id": 1, // DTG printing (as per your previous demo JSON)
+                                "designs": [
+                                    {
+                                        "design_code": "31002625", // From your Excel "Design" column
+                                        "width_inches": "9.25", // Extracted from your Design string
+                                        "height_inches": "9.39", // Extracted from your Design string
+                                        "placement_sku": "fr", // Common default for "front" placement. Check your Qikink setup.
+                                        "design_link": "https://your-domain.com/path/to/your/luffy_design.png", // <-- ***IMPORTANT: REPLACE WITH ACTUAL URL TO YOUR DESIGN IMAGE***
+                                        // This is where Qikink gets the actual image to print.
+                                        "mockup_link": "https://your-domain.com/path/to/your/luffy_mockup.png" // <-- ***IMPORTANT: REPLACE WITH ACTUAL URL TO YOUR MOCKUP IMAGE***
+                                        // This is for Qikink's reference/display.
+                                    }
+                                ]
+                            }
+                        ],
+                        "shipping_address": {
+                            "first_name": "John",
+                            "last_name": "Doe",
+                            "address1": "123 Sample Street",
+                            "phone": "9876543210",
+                            "email": "john.doe@example.com",
+                            "city": "Coimbatore",
+                            "zip": "641004",
+                            "province": "Tamil Nadu",
+                            "country_code": "IN"
+                        }
+                    };
+
+                    try {
+                        const response = await fetch('/checkout', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(orderData)
+                        });
+
+                        const result = await response.json();
+                        if(result.error)
+                            alert(result.error);
+                        else
+                            alert(result.message);
+
+                        // Optionally redirect
+                        // window.location.href = '/thank-you';
+                    } catch (err) {
+                        alert('Failed to place order');
+                        console.error(err);
+                    }
+                });
+            </script>
 
 
 
-    <!-- 
+            <!-- 
     - custom js link
   -->
-    <script src="./assets/js/script.js" defer></script>
-    <script src="main.js" defer></script>
-    <script src="slider.js" defer></script>
-    <script src="cart.js" defer></script>
-  <script src="/assets/js/userlogin.js" defer></script>
+            <script src="./assets/js/script.js" defer></script>
+            <script src="main.js" defer></script>
+            <script src="slider.js" defer></script>
+            <script src="cart.js" defer></script>
+            <script src="/assets/js/userlogin.js" defer></script>
 
 
-    <!-- 
+            <!-- 
     - ionicon link
   -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
 
