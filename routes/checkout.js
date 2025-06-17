@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const Order = require('../models/Order'); // ✅ Adjust path if necessary
+const Cart = require('../models/Cart'); // ✅ Adjust path if necessary
+
 
 // Base URL for Qikink APIs
 const QIKINK_BASE_URL = 'https://sandbox.qikink.com/api'; // Use sandbox for development
@@ -15,9 +17,43 @@ router.post('/checkout', async (req, res) => {
       shipping_address,
       total_order_value,
       gateway,
-      userId // Make sure this is passed from frontend (or use req.user._id if using auth)
+      userId1// Make sure this is passed from frontend (or use req.user._id if using auth)
     } = req.body;
+    // console.log("Itmes: ", line_items);
 
+    const userId = req.user._id; // Example: if you store userId in session
+    if (!userId) {
+      console.warn('No user ID found in session for /orders route. Cannot fetch user-specific orders.');
+      // You might want to redirect to login or show an empty orders page
+      return res.render('orders', { orders: [], error: 'Please log in to view your orders.' });
+    }
+
+    // console.log("Hello");
+    
+    // Find orders for the specific user and populate product details within each item
+    const cart = await Cart.find({ userId: userId })
+      .populate('items.productId') // Populates the productId field with actual Product documents
+      .sort({ createdAt: -1 }); // Sort by newest first
+
+    //console.log("Fetched From Cart:", cart);
+    let cartItems = [];
+    cart.forEach(cartItem => {
+      // console.log("CartItem: ",cartItem);
+      
+      cartItem.items.forEach(item => { 
+        //  console.log("Item: ", item);
+         let productId = item._id;
+         let name =  item.name;
+         let quantity = item.quantity;
+         let price = item.price;
+         let cartIt = {productId,name,quantity,price};
+        //  console.log("cartit",cartIt);
+         
+         cartItems.push(cartIt);
+      })
+    });
+    console.log("CartItems: ",cartItems);
+    
     // --- Step 1: Obtain a fresh AccessToken from Qikink Authorization API ---
     const authResponse = await axios.post(`${QIKINK_BASE_URL}/token`,
       new URLSearchParams({ // Use URLSearchParams for x-www-form-urlencoded body
@@ -55,7 +91,8 @@ router.post('/checkout', async (req, res) => {
         'Content-Type': 'application/json'
       }
     });
-
+    console.log("Res: ",qikinkResponse.status);
+    
     // Check if Qikink order creation was successful
     if (qikinkResponse.status !== 200) {
       console.error('Qikink order creation failed:', qikinkResponse.data);
@@ -63,14 +100,16 @@ router.post('/checkout', async (req, res) => {
     }
 
     // --- Step 3: Create an entry in your local Order model ---
+    console.log("Itmes: ", line_items);
+
     const newOrder = new Order({
       userId: req.user._id,
-      items: line_items,
+      items: cartItems,
       totalAmount: total_order_value,
       status: 'Processing',
       qikinkOrderId: qikinkResponse.data.order_id, // Assuming Qikink returns an order_id
       // You might also want to store shipping_address or other details if not already part of the Order schema
-      // shippingAddress: shipping_address
+      shippingAddress: shipping_address
     });
 
     await newOrder.save().catch(err => {

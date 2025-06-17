@@ -6,6 +6,7 @@ const session = require('express-session');
 const Order = require('./models/Order');
 const Cart = require('./models/Cart');
 const checkoutRouter = require('./routes/checkout');
+const ordersRouter = require('./routes/orders');
 
 const MongoStore = require('connect-mongo');
 const fs = require('fs');
@@ -89,6 +90,7 @@ app.use(async (req, res, next) => {
 app.use('/auth', require('./routes/auth'));
 
 app.use('/', checkoutRouter);  // or '/api' based on your setup
+app.use('/', ordersRouter); 
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null; // `req.user` is set by Passport if logged in
@@ -113,9 +115,10 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/orders", (req, res) => {
-  res.render("orders", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
-});
+// app.get("/orders",async (req, res) => {
+//   const orders = await Product.find({}).limit(10);
+//   res.render("orders", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
+// });
 
 app.get("/collections", (req, res) => {
   res.render("collections", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
@@ -172,8 +175,12 @@ app.get("/cart", async (req, res) => {
   });
 });
 
-app.get("/checkout", (req, res) => {
-  res.render("checkout", { title: "Home Page", message: "Welcome to the EJS-powered site!" });
+app.get("/checkout",async (req, res) => {
+  const userCart = await Cart.findOne({ userId: req.user._id }).populate('items.productId');
+  const cartItems = (userCart && userCart.items) || [];
+  // console.log(cartItems);
+  
+  res.render("checkout", { cartItems });
 });
 
 

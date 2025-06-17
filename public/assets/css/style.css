@@ -1480,3 +1480,12 @@ body {
       max-width: 1300px;
     margin: 0 auto;
 }
+
+.my-details{
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+#my-1{
+  border-bottom: 1px solid black;
+}

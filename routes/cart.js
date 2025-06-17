@@ -28,7 +28,7 @@ router.post('/cart/add', async (req, res) => {
     }
 
     let cart = await Cart.findOne({ userId: req.user._id });
-
+    
     if (!cart) {
       cart = new Cart({
         userId: req.user._id,

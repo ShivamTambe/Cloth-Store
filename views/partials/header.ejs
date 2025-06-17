@@ -35,7 +35,10 @@
             </a>
             <div id="login-box">
               <% if (user) { %>
-                  <p>Welcome, <%= user.name %></p>
+                <div class="my-details">
+                  <div id="my-1"><%= user.name %></div>
+                  <a href="/orders"><div >My Orders</div></a>
+                </div>
               <% } else { %>
                   <a href="/auth/google">Login with Google</a>
               <% } %>

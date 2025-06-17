@@ -5,21 +5,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glowing - Reveal The Beauty of Skin</title>
+    <title>Your Orders - Glowing</title>
 
     <!-- 
     - favicon
-  -->
+    -->
     <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
 
     <!-- 
     - custom css link
-  -->
+    -->
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/orders.css">
+    <link rel="stylesheet" href="./assets/css/cart.css"> <!-- Reusing cart.css for general styling -->
+    <style>
+        /* Add specific styles for the orders page if needed */
+        .orders-container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .order-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--eerie-black);
+        }
+        .order-header p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--davys-gray);
+        }
+        .order-details {
+            margin-bottom: 15px;
+        }
+        .order-details p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: var(--eerie-black);
+        }
+        .order-details span {
+            font-weight: 500;
+        }
+        .order-items {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .order-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        .order-item:hover .item-name {
+            text-decoration: underline;
+            color: var(--accent-color); /* Assuming you have an accent color */
+        }
+        .order-item .item-image img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .order-item .item-details {
+            flex-grow: 1;
+        }
+        .order-item .item-name {
+            font-size: 1.1rem;
+            margin: 0 0 5px 0;
+            color: var(--eerie-black);
+        }
+        .order-item .item-price-qty {
+            font-size: 0.9rem;
+            color: var(--davys-gray);
+        }
+        .empty-orders {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--davys-gray);
+        }
+        /* Style for the product link */
+        .product-link {
+            text-decoration: none; /* Remove underline by default */
+            color: inherit; /* Inherit color from parent */
+            display: flex; /* Make the whole link behave as a flex container */
+            align-items: center;
+            gap: 15px;
+        }
+        /* Hover effect on the link */
+        .product-link:hover .item-name {
+            text-decoration: underline;
+            color: var(--accent-color, #ff5722); /* Example accent color */
+        }
+    </style>
+
     <!-- 
     - google font link
-  -->
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap"
@@ -27,11 +123,8 @@
 
     <!-- 
     - preload images
-  -->
+    -->
     <link rel="preload" as="image" href="./assets/images/logo.png">
-    <link rel="preload" as="image" href="./assets/images/hero-banner-1.jpg">
-    <link rel="preload" as="image" href="./assets/images/hero-banner-2.jpg">
-    <link rel="preload" as="image" href="./assets/images/hero-banner-3.jpg">
 
 </head>
 
@@ -39,97 +132,85 @@
 
     <!-- 
     - #HEADER
-  -->
-
+    -->
     <%- include('partials/header') %>
 
+    <div class="orders-container">
+        <h2>Your Orders</h2>
 
-    <!-- 
-        - #ORDERS
-      -->
+        <% if (orders && orders.length === 0) { %>
+            <p class="empty-orders">You haven't placed any orders yet.</p>
+        <% } else { %>
+            <% orders.forEach(order => { %>
+                <div class="order-card">
+                    <div class="order-header">
+                        <h3>Order #<%= order.qikinkOrderId || order._id.toString().substring(0, 10) %></h3>
+                        <p>Placed on: <%= new Date(order.createdAt).toLocaleDateString('en-IN', {
+                            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                        }) %></p>
+                    </div>
 
-    <div class="orders-wrapper">
-  <h1>My Orders</h1>
+                    <div class="order-details">
+                        <p>Status: <span><%= order.status %></span></p>
+                        <p>Total Amount: <span>₹<%= order.totalAmount.toFixed(2) %></span></p>
+                        <!-- Add more order level details if available in your schema, e.g., shipping address -->
+                        <% if (order.shippingAddress && order.shippingAddress.address1) { %>
+                            <p>Shipping Address: <span><%= order.shippingAddress.address1 %>, <%= order.shippingAddress.city %>, <%= order.shippingAddress.province %> - <%= order.shippingAddress.zip %></span></p>
+                        <% } %>
+                    </div>
 
-  <div class="order-card" onclick="showOrderDetails('ORD123')">
-    <div>
-      <p><strong>Order #:</strong> ORD123</p>
-      <p><strong>Date:</strong> May 31, 2025</p>
-      <p><strong>Status:</strong> Delivered</p>
+                    <div class="order-items">
+                        <h4>Items in this Order:</h4>
+                        <% order.items.forEach(item => { %>
+                            <!-- Link to the product page -->
+                            <a href="/products/<%= item._id %>" class="product-link">
+                                <div class="item-image">
+                                    <% if (item.productId && item.productId.image) { %>
+                                        <img src="<%= item.product.image %>" alt="<%= item.productId.name %>">
+                                    <% } else if (item.image) { %>
+                                        <img src="<%= item.image %>" alt="<%= item.name %>">
+                                    <% } else { %>
+                                        <img src="https://placehold.co/80x80/cccccc/ffffff?text=No+Image" alt="No Image"> <!-- Placeholder -->
+                                    <% } %>
+                                </div>
+                                <div class="item-details">
+                                    <h5 class="item-name">
+                                        <% if (item.productId && item.productId.name) { %>
+                                            <%= item.productId.name %>
+                                        <% } else { %>
+                                            <%= item.name || 'Unknown Product' %>
+                                        <% } %>
+                                    </h5>
+                                    <p class="item-price-qty">
+                                        Qty: <%= item.quantity %> &times; ₹<%= item.price.toFixed(2) %>
+                                    </p>
+                                </div>
+                            </a>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+
     </div>
-    <div>
-      <p class="total">₹1,299</p>
-      <button>View Details</button>
-    </div>
-  </div>
-
-  <div class="order-card" onclick="showOrderDetails('ORD124')">
-    <div>
-      <p><strong>Order #:</strong> ORD124</p>
-      <p><strong>Date:</strong> May 30, 2025</p>
-      <p><strong>Status:</strong> In Progress</p>
-    </div>
-    <div>
-      <p class="total">₹799</p>
-      <button>View Details</button>
-    </div>
-  </div>
-</div>
-
-<!-- Order Details Modal -->
-<div id="order-details" class="hidden">
-  <div class="modal-box">
-    <button class="close" onclick="closeOrderDetails()">&times;</button>
-    <h2>Order Details</h2>
-    <div id="order-info">
-      <!-- Populated via JavaScript -->
-    </div>
-  </div>
-</div>
-
-
 
     <!-- 
     - #FOOTER
-  -->
-
-     <%- include('partials/footer') %>
-
-    <script>
-  function showOrderDetails(orderId) {
-    document.getElementById("order-details").classList.remove("hidden");
-    document.getElementById("order-info").innerHTML = `
-      <p><strong>Order ID:</strong> ${orderId}</p>
-      <p><strong>Status:</strong> Delivered</p>
-      <p><strong>Items:</strong></p>
-      <ul>
-        <li>Blue Sari x1 – ₹999</li>
-        <li>Shipping – ₹300</li>
-      </ul>
-      <p><strong>Total:</strong> ₹1299</p>
-    `;
-  }
-
-  function closeOrderDetails() {
-    document.getElementById("order-details").classList.add("hidden");
-  }
-</script>
-
-
+    -->
+    <%- include('partials/footer') %>
 
     <!-- 
     - custom js link
-  -->
+    -->
     <script src="./assets/js/script.js" defer></script>
     <script src="main.js" defer></script>
     <script src="slider.js" defer></script>
     <script src="cart.js" defer></script>
-  <script src="/assets/js/userlogin.js" defer></script>
-
+    <script src="/assets/js/userlogin.js" defer></script>
 
     <!-- 
     - ionicon link
-  -->
+    -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
