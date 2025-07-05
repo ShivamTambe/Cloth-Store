@@ -188,3 +188,13 @@
   color: #333;
   margin-top: 10px;
 }
+
+.input-error {
+  border: 2px solid red !important;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
