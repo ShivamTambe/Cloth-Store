@@ -518,7 +518,7 @@ body {
 
 .hero-card {
   background-color: var(--light-gray);
-  padding: 100px 15px;
+  /* padding: 100px 15px; */
   background-position: 40%;
 }
 
@@ -1015,7 +1015,7 @@ body {
    * HERO
    */
 
-  .hero-card { padding-inline: 70px; }
+  /* .hero-card { padding-inline: 70px; } */
 
   .hero-text { max-width: 30ch; }
 
@@ -1374,7 +1374,7 @@ body {
    * HERO
    */
 
-  .hero-card { padding: 120px 100px; }
+  /* .hero-card { padding: 120px 100px; } */
 
   .hero-text { max-width: 40ch; }
 
@@ -1488,4 +1488,24 @@ body {
 }
 #my-1{
   border-bottom: 1px solid black;
+}
+#webname{
+  font-size: 3rem;
+  color: black;
+  font-weight: 600;
+}
+
+.opa{
+  opacity: 0;
+}
+
+/* .hero-card{
+  width: 100%;
+} */
+
+.hero-card img{
+  width: 100%;
+  height: auto;
+  padding-inline: 0;
+  padding: 0;
 }
