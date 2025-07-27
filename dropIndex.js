@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 async function run() {
   try {
-    const uri = 'mongodb+srv://Admin:Shivam20222@cluster0.cuic2kf.mongodb.net/test?retryWrites=true&w=majority';
+    const uri = process.env.MONGODB_URI + 'test?retryWrites=true&w=majority';
 
     console.log('🔌 Connecting to MongoDB Atlas...');
     await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });

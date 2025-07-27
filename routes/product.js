@@ -40,17 +40,28 @@ router.post("/", async (req, res) => {
 
 
 
-    console.log("Receaived variations string:", variations);
+    // console.log("Receaived variations string:", variations);
     let parsedVariations = [];
 
     if (variations) {
       try {
-        parsedVariations = JSON.parse(variations);
-        console.log("parsedVariations string:", variations);
+        const raw = JSON.parse(variations);
+        // console.log("parsedVariations string:", variations);
 
-        if (!Array.isArray(parsedVariations)) {
+        if (!Array.isArray(raw)) {
           throw new Error("Variations must be an array");
         }
+
+        // Transform skus object into sizeSkus array
+        parsedVariations = raw.map(variation => {
+          const { skus, ...rest } = variation;
+          const sizeSkus = Object.entries(skus).map(([size, sku]) => ({ size, sku }));
+          return {
+            ...rest,
+            sizeSkus
+          };
+        });
+
       } catch (err) {
         return res.status(400).json({ error: "Invalid variations JSON format." });
       }

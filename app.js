@@ -130,20 +130,55 @@ const cartRoutes = require('./routes/cart');
 app.use(cartRoutes); // Or app.use('/cart', cartRoutes);
 
 
+// app.get("/product/:id", async (req, res) => {
+//   const idParam = req.params.id;
+//   let product;
+
+//   // Try to parse as a number (for local JSON data)
+//   const numericId = parseInt(idParam);
+
+//   if (!isNaN(numericId)) {
+//     // Search in bestsellers JSON by numeric id
+//     product = bestsellers.products.find(p => p.id === numericId);
+//   }
+
+//   // If not found in JSON, check MongoDB
+//   if (!product && ObjectId.isValid(idParam)) {
+//     try {
+//       product = await Product.findById(idParam).lean();
+//     } catch (err) {
+//       console.error("MongoDB query error:", err);
+//     }
+//   }
+
+//   if (!product) {
+//     return res.status(404).send("Product not found");
+//   }
+
+//   res.render("product", {
+//     product,
+//     title1: "Our Bestsellers",
+//     title2: "Recommended",
+//     products: bestsellers.products,
+//   });
+// });
+
+
 app.get("/product/:id", async (req, res) => {
+  const { ObjectId } = require("mongoose").Types;
   const idParam = req.params.id;
   let product;
 
   // Try to parse as a number (for local JSON data)
   const numericId = parseInt(idParam);
-
   if (!isNaN(numericId)) {
-    // Search in bestsellers JSON by numeric id
     product = bestsellers.products.find(p => p.id === numericId);
   }
 
   // If not found in JSON, check MongoDB
   if (!product && ObjectId.isValid(idParam)) {
+    console.log("not found In beselleres");
+    
     try {
       product = await Product.findById(idParam).lean();
     } catch (err) {
@@ -155,8 +190,41 @@ app.get("/product/:id", async (req, res) => {
     return res.status(404).send("Product not found");
   }
 
+  // ✅ Handle default color + size + sku for first visit
+  let defaultColor = null;
+  let defaultSize = null;
+  let defaultSku = null;
+  // console.log("Product : ", product);
+  
+  if (product.variations?.length > 0) {
+    // console.log("variationlenth not 0");
+    
+    const firstVariation = product.variations[0];
+    console.log(firstVariation);
+    
+    defaultColor = {
+      name: firstVariation.colorName,
+      hex: firstVariation.colorHex,
+    };
+
+    if (firstVariation.sizeSkus?.length > 0) {
+      console.log("sku length not 0");
+
+      defaultSize = firstVariation.sizeSkus[0].size;
+      defaultSku = firstVariation.sizeSkus[0].sku;
+
+      console.log(defaultSize);
+      console.log(defaultSku);
+      
+    }
+  }
+
+  // ✅ Pass to template
   res.render("product", {
     product,
+    defaultColor,
+    defaultSize,
+    defaultSku,
     title1: "Our Bestsellers",
     title2: "Recommended",
     products: bestsellers.products,

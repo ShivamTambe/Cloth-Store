@@ -100,15 +100,74 @@
         </div>
 
         <div class="content">
-          <h3>
+          <!-- <h3>
             <%= product.company || "SNEAKER COMPANY" %>
-          </h3>
+          </h3> -->
           <h2 class="product-name">
             <%= product.name %>
           </h2>
           <p class="product-desc">
             <%= product.description %>
           </p>
+
+        <input type="hidden" id="selectedColor" name="selectedColor" value="<%= defaultColor?.name %>">
+        <input type="hidden" id="selectedSize" name="selectedSize" value="<%= defaultSize %>">
+        <input type="hidden" id="selectedSku" name="selectedSku" value="<%= defaultSku %>">
+
+        <!-- Example: -->
+        <div><strong>SKU:</strong> <span id="sku-display"><%= defaultSku %></span></div>
+
+        <div class="color-div">
+          <div class="ptitle">Please select color.</div>
+          <div class="colors" id="color-options">
+            <% 
+              const colors = product.variations.map(v => ({
+                name: v.colorName,
+                hex: v.colorHex
+              }));
+
+              const uniqueColors = Array.from(
+                new Map(colors.map(c => [c.name, c])).values()
+              );
+
+              uniqueColors.forEach(color => { 
+            %>
+              <div 
+                class="color-swatch <%= color.name === defaultColor.name ? 'selected' : '' %>" 
+                data-color="<%= color.name %>"
+                style="background-color: <%= color.hex %>;"
+              >
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="color-div">
+          <div class="ptitle">Please select Size.</div>
+          <div class="colors" id="size-options">
+            <% 
+              const sizeSet = new Set();
+              product.variations.forEach(variation => {
+                variation.sizeSkus.forEach(sku => {
+                  sizeSet.add(sku.size);
+                });
+              });
+
+              const sizes = Array.from(sizeSet);
+              sizes.forEach(size => { 
+            %>
+              <div 
+                class="size-btn <%= size === defaultSize ? 'selected' : '' %>" 
+                data-size="<%= size %>"
+              >
+                <%= size %>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+
+
           <div class="price-info">
             <div class="price">
               <span class="current-price">$<%= product.price.toFixed(2) %></span>
@@ -190,6 +249,41 @@
     </div>
 
 
+    <script>
+  const variations = <%- JSON.stringify(product.variations) %>;
+
+  const colorElements = document.querySelectorAll('#color-options .color-swatch');
+  const sizeElements = document.querySelectorAll('#size-options .size-btn');
+
+  function updateSku() {
+    const selectedColor = document.querySelector('.color-swatch.selected')?.dataset.color;
+    const selectedSize = document.querySelector('.size-btn.selected')?.dataset.size;
+    const match = variations.find(v => v.color === selectedColor && v.size === selectedSize);
+
+    if (match) {
+      document.getElementById('selectedColor').value = selectedColor;
+      document.getElementById('selectedSize').value = selectedSize;
+      document.getElementById('selectedSku').value = match.sku;
+      document.getElementById('sku-display').innerText = match.sku;
+    }
+  }
+
+  colorElements.forEach(el => {
+    el.addEventListener('click', () => {
+      colorElements.forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      updateSku();
+    });
+  });
+
+  sizeElements.forEach(el => {
+    el.addEventListener('click', () => {
+      sizeElements.forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      updateSku();
+    });
+  });
+</script>
 
     <!-- 
         - #SHOP
