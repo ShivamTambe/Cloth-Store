@@ -69,9 +69,16 @@
             <input type="url" name="thumbnails" placeholder="Comma-separated thumbnail URLs" />
 
             <h3>Qikink Details</h3>
-            <input type="text" name="qikinkDesignIdentifier" placeholder="Qikink Design Identifier (e.g., vecteezy_...)" required />
-            <input type="number" name="qikinkBaseCost" placeholder="Qikink Base Cost (e.g., 199.5)" required />
-            <input type="text" name="qikinkProductType" placeholder="Qikink Product Type (e.g., Cotton Apparels)" />
+            <input type="number" name="qikinkProductId" placeholder="productId" required />
+            <input type="number" name="qikinkBaseCost" placeholder="Qikink Base Cost (e.g., 199.5)"  />
+            <input type="number" name="qikinkProductType" placeholder="product Type" required />
+
+            <label for="variations">Product Variations (JSON format):</label>
+            
+            <textarea name="variations" id="variations" rows="10" cols="60" placeholder='Paste JSON here...'></textarea>
+
+            <!-- <input type="text" name="qikinkDesignIdentifier" placeholder="Qikink Design Identifier (e.g., vecteezy_...)" />
+            <input type="text" name="qikinkProductType" placeholder="Qikink Product Type (e.g., Cotton Apparels)" /> -->
 
             <button type="submit">Add Product</button>
         </form>
@@ -117,9 +124,11 @@ form.addEventListener("submit", async (e) => {
         stock: parseIntSafe(form.stock.value),
 
         // --- NEW Qikink Fields ---
-        qikinkDesignIdentifier: form.qikinkDesignIdentifier.value,
+        variations: form.variations.value,
+        qikinkProductId: form.qikinkProductId.value,
         qikinkBaseCost: parseNumber(form.qikinkBaseCost.value),
-        qikinkProductType: form.qikinkProductType.value || undefined,
+        // qikinkDesignIdentifier: form.qikinkDesignIdentifier.value,
+        qikinkProductType: form.qikinkBaseCost.value || undefined,
 
         // Variations are complex for a simple form. You might add them directly in DB or via another interface.
         // If you were to add them, it would look something like this (for one hardcoded variant):

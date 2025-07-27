@@ -37,11 +37,16 @@ const productSchema = new mongoose.Schema({
     default: Date.now
   },
   // --- NEW Qikink Integration Specific Fields ---
-  qikinkDesignIdentifier: { // This will store the full string from the "Design" column
-    type: String,
+  // qikinkDesignIdentifier: { // This will store the full string from the "Design" column
+  //   type: String,
+  //   required: true,
+  //   unique: true,
+  //   trim: true
+  // },/
+  qikinkProductId: { 
+    type: Number,
     required: true,
-    unique: true,
-    trim: true
+    min: 0
   },
   qikinkBaseCost: { // The "Product Price (Starts from)" that Qikink charges you (e.g., 199.5)
     type: Number,
@@ -53,15 +58,22 @@ const productSchema = new mongoose.Schema({
     trim: true
   },
 
-  // --- Variations (if each variant has a distinct QikinkDesignIdentifier) ---
+  // NEW structure for color + size-wise SKU mapping
   variations: [
     {
-      size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'One Size'], required: true },
-      color: { type: String, required: true, trim: true },
-      // If a specific size/color combination has a DIFFERENT qikinkDesignIdentifier:
-      qikinkVariantDesignIdentifier: { type: String, trim: true }, // Use this if it differs from the base
-      qikinkVariantCost: { type: Number, min: 0 },
-      variantSellingPrice: { type: Number, min: 0 }
+      colorName: { type: String, required: true, trim: true },   // e.g., "White"
+      colorHex: { type: String, required: true },                // e.g., "#FFFFFF"
+
+      sizeSkus: [
+        {
+          size: {
+            type: String,
+            enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'One Size'],
+            required: true
+          },
+          sku: { type: String, required: true, trim: true }
+        }
+      ]
     }
   ]
 });
