@@ -210,6 +210,9 @@
                 <input type="number" name="count" min="1" value="1" id="count2">
                 <input type="text" name="redirectUrl" value="/product/<%= product._id %>">
                 <input type="hidden" name="skuDisplayInput" id="skuDisplayInput" value="<%=defaultSku%>">
+                <input type="hidden" name="colorInputName" id="colorInputName" value="<%= defaultColor?.name %>">
+                <input type="hidden" name="colorInputHex" id="colorInputHex" value="<%= defaultColor?.hex %>">
+                <input type="hidden" name="sizeInput" id="sizeInput" value="<%=defaultSize%>">
                 <button type="submit" id="add-product">Add to Cart</button>
               </form>
               <button class="add-to-cart" id="ad-to-cart">
@@ -264,13 +267,19 @@
 
     const colorVariation = variations.find(v => v.colorName === selectedColor);
     const sizeMatch = colorVariation?.sizeSkus.find(sku => sku.size === selectedSize);
-
+    console.log("ColorVariation: ", colorVariation);
+    
     if (sizeMatch) {
       document.getElementById('selectedColor').value = selectedColor;
       document.getElementById('selectedSize').value = selectedSize;
       document.getElementById('selectedSku').value = sizeMatch.sku;
       document.getElementById('sku-display').innerText = sizeMatch.sku;
       document.getElementById('skuDisplayInput').value = sizeMatch.sku;
+
+      document.getElementById('sizeInput').value = selectedSize;
+      document.getElementById('colorInputName').value = selectedColor;
+      document.getElementById('colorInputHex').value = colorVariation?.colorHex;
+
     }
   }
 

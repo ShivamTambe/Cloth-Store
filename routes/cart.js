@@ -13,7 +13,7 @@ router.post('/cart/add', async (req, res) => {
     }
     console.log("REQ BODY:" , req.body);
     
-    const { productId, count, redirectUrl, skuDisplayInput } = req.body;
+    const { productId, count, redirectUrl, skuDisplayInput, colorInputName, colorInputHex, sizeInput } = req.body;
     console.log(count);
     const quantityToAdd = parseInt(count);
     
@@ -39,7 +39,10 @@ router.post('/cart/add', async (req, res) => {
           name: product.name,
           price: product.price,
           quantity: quantityToAdd,
-          productSku: skuDisplayInput
+          productSku: skuDisplayInput,
+          colorHex: colorInputHex,
+          colorName: colorInputName,
+          size: sizeInput
         }]
       });
       console.log("Oroudt SKU: ",  skuDisplayInput);
@@ -60,7 +63,10 @@ router.post('/cart/add', async (req, res) => {
           name: product.name,
           price: product.price,
           quantity: quantityToAdd,
-          productSku: skuDisplayInput
+          productSku: skuDisplayInput,
+          colorHex: colorInputHex,
+          colorName: colorInputName,
+          size: sizeInput
         });
         console.log("New Item added in Crat", cart);
         
