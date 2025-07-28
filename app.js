@@ -233,9 +233,11 @@ app.get("/product/:id", async (req, res) => {
 
 
 app.get("/cart", async (req, res) => {
-  console.log(req.user);
   const userCart = await Cart.findOne({ userId: req.user._id }).populate('items.productId');
   const cartItems = (userCart && userCart.items) || [];
+  console.log(req.user);
+  console.log(userCart);
+
   
   res.render("cart", {
       title: "Your Cart",

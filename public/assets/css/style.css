@@ -1532,3 +1532,6 @@ body {
   background-color: #333;
   color: white;
 }
+.colors{
+  display: flex;
+}

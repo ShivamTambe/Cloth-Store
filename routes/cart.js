@@ -11,8 +11,9 @@ router.post('/cart/add', async (req, res) => {
     if (!req.user) {
       return res.redirect('/auth/google2');
     }
-
-    const { productId, count, redirectUrl } = req.body;
+    console.log("REQ BODY:" , req.body);
+    
+    const { productId, count, redirectUrl, skuDisplayInput } = req.body;
     console.log(count);
     const quantityToAdd = parseInt(count);
     
@@ -28,6 +29,7 @@ router.post('/cart/add', async (req, res) => {
     }
 
     let cart = await Cart.findOne({ userId: req.user._id });
+    console.log("Cart: ",cart);
     
     if (!cart) {
       cart = new Cart({
@@ -36,13 +38,19 @@ router.post('/cart/add', async (req, res) => {
           productId: product._id,
           name: product.name,
           price: product.price,
-          quantity: quantityToAdd
+          quantity: quantityToAdd,
+          productSku: skuDisplayInput
         }]
       });
+      console.log("Oroudt SKU: ",  skuDisplayInput);
+      
       console.log("New CART Crated: ", cart);
       
     } else {
-      const existingItem = cart.items.find(item => item.productId.toString() === productId);
+      // const existingItem = cart.items.find(item => item.productId.toString() === productId);
+      const existingItem = cart.items.find(item => 
+        item.productId.toString() === productId && item.productSku === skuDisplayInput
+      );
       if (existingItem) {
           existingItem.quantity += quantityToAdd;
           console.log("Item already in CART: ", existingItem);
@@ -51,7 +59,8 @@ router.post('/cart/add', async (req, res) => {
           productId: product._id,
           name: product.name,
           price: product.price,
-          quantity: quantityToAdd
+          quantity: quantityToAdd,
+          productSku: skuDisplayInput
         });
         console.log("New Item added in Crat", cart);
         
