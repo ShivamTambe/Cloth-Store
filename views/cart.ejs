@@ -71,6 +71,11 @@
             <%= item.name %>
           </h3>
           <p class="item-price">₹<%= item.price %> <del>₹<%= item.price + 10 %></del></p>
+          <div class="cart-item-prop">
+            <div class="item-color" style="background-color: <%= item.colorHex %>;"></div>
+            <div class="item-size"><%= item.size %> </div>
+          </div>
+
           <div class="item-actions">
             <label>Qty:
               <input type="number" value="<%= item.quantity %>" min="1">

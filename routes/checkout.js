@@ -19,7 +19,7 @@ router.post('/checkout', async (req, res) => {
       gateway,
       userId1// Make sure this is passed from frontend (or use req.user._id if using auth)
     } = req.body;
-    // console.log("Itmes: ", line_items);
+    console.log("Itmes: ", total_order_value);
 
     const userId = req.user._id; // Example: if you store userId in session
     if (!userId) {
@@ -46,6 +46,10 @@ router.post('/checkout', async (req, res) => {
          let name =  item.name;
          let quantity = item.quantity;
          let price = item.price;
+         let productSku = item.productSku;
+         let colorHex = item.colorHex;
+         let colorName = item.colorName;
+         let size = item.size;
          let cartIt = {productId,name,quantity,price};
         //  console.log("cartit",cartIt);
          
@@ -130,6 +134,19 @@ router.post('/checkout', async (req, res) => {
       qikinkData: qikinkResponse.data,
       localOrder: newOrder
     });
+
+    // Empty the user's cart after successful order placement
+    let userCart = await Cart.findOne({ userId: req.user._id });
+
+    if (!userCart) {
+      return res.status(404).send('Cart not found after order while emptying');
+    }
+
+    // Clear all items from the cart
+    userCart.items = [];
+
+    await userCart.save();
+    console.log(`Cart emptied for user after order ${req.user._id}`);
 
   } catch (error) {
     console.error('Error placing order:', error.response?.data || error.message);

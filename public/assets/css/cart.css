@@ -114,3 +114,18 @@
     text-align: left;
   }
 }
+
+
+.item-color, .item-size{
+  width: 35px;
+  height: 35px;
+  border: 2px solid black;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cart-item-prop{
+  display: flex;
+  gap: 10px;
+}
